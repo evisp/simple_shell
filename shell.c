@@ -93,9 +93,16 @@ int execute(char *cmd_arr[])
 		wait(&status);
 	else if (pid == 0)
 	{
+	  if (environ)
+	    {
 		(execve(exe_path, cmd_arr, environ));
 		perror("Error:");
 		exit(1);
+	    }
+	  else
+	    {
+	      execve(exe_path, cmd_arr, NULL);
+	    }
 	}
 	free(exe_path);
 	return (0);
